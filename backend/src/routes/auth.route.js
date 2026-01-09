@@ -17,13 +17,11 @@ router.post('/onboarding', protectRoute, onboard);
 
 //check if user is logged in or not
 router.get('/checkAuth', protectRoute, (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: 'You are currently logged in',
-      user: req.user,
-    });
+  res.status(200).json({
+    success: true,
+    message: 'You are currently logged in',
+    user: req.user,
+  });
 });
 
 export default router;
