@@ -2,6 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import { ShipWheelIcon } from 'lucide-react';
 import { Link } from 'react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { signup } from '../utils/api';
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -9,10 +12,21 @@ const SignupPage = () => {
     email: '',
     password: '',
   });
-  const isPending = false;
+
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: signupMutation,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: signup,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authUser'] }),
+  });
 
   const handleSignup = (e) => {
     e.preventDefault();
+    signupMutation(signupData);
   };
 
   return (
@@ -32,11 +46,11 @@ const SignupPage = () => {
           </div>
 
           {/* ERROR MESSAGE IF ANY */}
-          {/* {error && (
+          {error && (
             <div className="alert alert-error mb-4">
               <span>{error.response.data.message}</span>
             </div>
-          )} */}
+          )}
 
           <div className="w-full">
             <form onSubmit={handleSignup}>
@@ -58,14 +72,14 @@ const SignupPage = () => {
                       type="text"
                       placeholder="John Doe"
                       className="input input-bordered w-full"
-                      // value={signupData.fullName}
-                      // onChange={(e) =>
-                      //   setSignupData({
-                      //     ...signupData,
-                      //     fullName: e.target.value,
-                      //   })
-                      // }
-                      // required
+                      value={signupData.fullName}
+                      onChange={(e) =>
+                        setSignupData({
+                          ...signupData,
+                          fullName: e.target.value,
+                        })
+                      }
+                      required
                     />
                   </div>
                   {/* EMAIL */}
@@ -77,11 +91,11 @@ const SignupPage = () => {
                       type="email"
                       placeholder="john@gmail.com"
                       className="input input-bordered w-full"
-                      // value={signupData.email}
-                      // onChange={(e) =>
-                      //   setSignupData({ ...signupData, email: e.target.value })
-                      // }
-                      // required
+                      value={signupData.email}
+                      onChange={(e) =>
+                        setSignupData({ ...signupData, email: e.target.value })
+                      }
+                      required
                     />
                   </div>
                   {/* PASSWORD */}
@@ -93,14 +107,14 @@ const SignupPage = () => {
                       type="password"
                       placeholder="********"
                       className="input input-bordered w-full"
-                      // value={signupData.password}
-                      // onChange={(e) =>
-                      //   setSignupData({
-                      //     ...signupData,
-                      //     password: e.target.value,
-                      //   })
-                      // }
-                      // required
+                      value={signupData.password}
+                      onChange={(e) =>
+                        setSignupData({
+                          ...signupData,
+                          password: e.target.value,
+                        })
+                      }
+                      required
                     />
                     <p className="text-xs opacity-70 mt-1">
                       Password must be at least 6 characters long
