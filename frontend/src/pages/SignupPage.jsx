@@ -2,9 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ShipWheelIcon } from 'lucide-react';
 import { Link } from 'react-router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { signup } from '../utils/api';
+import useSignup from '../hooks/useSignup';
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -13,16 +11,19 @@ const SignupPage = () => {
     password: '',
   });
 
-  const queryClient = useQueryClient();
+  //this is without using hook
+  //const queryClient = useQueryClient();
+  // const {
+  //   mutate: signupMutation,
+  //   isPending,
+  //   error,
+  // } = useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authUser'] }),
+  // });
 
-  const {
-    mutate: signupMutation,
-    isPending,
-    error,
-  } = useMutation({
-    mutationFn: signup,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authUser'] }),
-  });
+  //this is using custom hook - more optimized
+  const { isPending, error, signupMutation } = useSignup();
 
   const handleSignup = (e) => {
     e.preventDefault();

@@ -22,7 +22,7 @@ const OnboardingPage = () => {
     nativeLanguage: authUser?.nativeLanguage || '',
     learningLanguage: authUser?.learningLanguage || '',
     location: authUser?.location || '',
-    profilePic: authUser?.profilePic || '',
+    profilePic: authUser?.profilePic  || '',
   });
 
   const { mutate: onboardingMutation, isPending } = useMutation({
