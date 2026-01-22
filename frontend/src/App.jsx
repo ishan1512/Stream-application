@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router';
 import { Toaster } from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
 
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
@@ -11,6 +10,7 @@ import ChatPage from './pages/ChatPage';
 import OnboardingPage from './pages/OnboardingPage';
 import PageLoader from './components/PageLoader';
 import useAuthUser from './hooks/useAuthUser';
+import Layout from './components/Layout';
 
 const App = () => {
   //tanstack query
@@ -29,7 +29,9 @@ const App = () => {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? '/login' : '/onboarding'} />
             )
