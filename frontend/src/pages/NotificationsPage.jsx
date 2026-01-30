@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { acceptFriendRequest, getFriendRequests } from '../utils/api';
-import NoNotificationsFound from '../components/NoNotificationsfOUND.JSX';
+import NoNotificationsFound from '../components/NoNotificationsFound';
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
